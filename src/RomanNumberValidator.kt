@@ -1,8 +1,8 @@
-enum class Digit(val value: Int){
+private enum class Digit(val value: Int){
     ONE(1), FIVE(5)
 }
 
-enum class Scale(val value: Int){
+private enum class Scale(val value: Int){
     ONES(1), TENS(10), HUNDREDS(100);
     companion object {
         fun max(): Scale = HUNDREDS
@@ -17,7 +17,7 @@ enum class Scale(val value: Int){
     }
 }
 
-enum class RomanLetter(val letter: Char, val scale: Scale, val digit: Digit) {
+private enum class RomanLetter(val letter: Char, val scale: Scale, val digit: Digit) {
     I('I', Scale.ONES, Digit.ONE),
     V('V', Scale.ONES, Digit.FIVE),
     X('X', Scale.TENS, Digit.ONE),
@@ -53,7 +53,7 @@ fun  isRomanNumber(str: String): Boolean{
     return index == strTrimmed.length
 }
 
-fun collectDigitsOfScale(str: String, index: Int, scale: Scale): Int{
+private fun collectDigitsOfScale(str: String, index: Int, scale: Scale): Int{
     // check that the next letter is of the wanted scale
     val hasNext = hasLetterInIndexOfScale(str, index, scale)
     if(!hasNext){
@@ -94,7 +94,7 @@ fun collectDigitsOfScale(str: String, index: Int, scale: Scale): Int{
 
 private fun romanLetterInIndex(str: String, nextIndex: Int) = RomanLetter.valueOf("${str[nextIndex]}")
 
-fun hasLetterInIndexOfScale(str: String, index: Int, scale: Scale): Boolean{
+private fun hasLetterInIndexOfScale(str: String, index: Int, scale: Scale): Boolean{
     // check that index is in the range
     if (!hasLetterInIndex(index, str)) return false
 
@@ -113,15 +113,15 @@ private fun hasLetterInIndex(index: Int, str: String): Boolean {
     return false
 }
 
-fun collectOnesOfScaleUpToAmount(str: String, index: Int, scale: Scale, maxAmount: Int): Pair<Boolean, Int> {
+private fun collectOnesOfScaleUpToAmount(str: String, index: Int, scale: Scale, maxAmount: Int): Pair<Boolean, Int> {
     return collectDigitsOfScaleUpToAmount(str, index, scale, maxAmount, Digit.ONE)
 }
 
-fun collectFiveOfScale(str: String, index: Int, scale: Scale): Pair<Boolean, Int> {
+private fun collectFiveOfScale(str: String, index: Int, scale: Scale): Pair<Boolean, Int> {
     return collectDigitsOfScaleUpToAmount(str, index, scale, 1, Digit.FIVE)
 }
 
-fun collectOneOfHigherScale(str: String, index: Int, scale: Scale): Pair<Boolean, Int> {
+private fun collectOneOfHigherScale(str: String, index: Int, scale: Scale): Pair<Boolean, Int> {
     if(scale == Scale.max()){
         return Pair(false,index)
     }
@@ -129,7 +129,7 @@ fun collectOneOfHigherScale(str: String, index: Int, scale: Scale): Pair<Boolean
     return collectOnesOfScaleUpToAmount(str, index, nextScale, 1)
 }
 
-fun collectDigitsOfScaleUpToAmount(str: String, index: Int, scale: Scale, maxAmount: Int, wantedDigit: Digit): Pair<Boolean, Int> {
+private fun collectDigitsOfScaleUpToAmount(str: String, index: Int, scale: Scale, maxAmount: Int, wantedDigit: Digit): Pair<Boolean, Int> {
     var succeeded = false
     var collected = 0
     var nextIndex = index
